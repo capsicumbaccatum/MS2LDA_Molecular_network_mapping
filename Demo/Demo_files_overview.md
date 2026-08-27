@@ -22,4 +22,4 @@ python MS2LDA_network_mappings_v1.0.py \
 
 ## Example:
 
-python MS2LDA_network_mappings_v1.0.py --mgf demo.mgf --model ms2lda.bin --viz ms2lda_viz.json --outdir results_ms2lda_mapping --threshold 0.002 type=float default=0.002 \--mode both 
+python MS2LDA_network_mappings_v1.0.py --mgf demo.mgf --model ms2lda.bin --viz ms2lda_viz.json --outdir results_ms2lda_mapping --threshold 0.002 type=float default=0.002 --mode both 
