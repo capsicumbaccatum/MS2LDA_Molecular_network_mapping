@@ -21,10 +21,11 @@ Depending on "mode", the output data frames have "long" and/or "wide" formats
 ## Long format CSV:
 <img width="462" height="180" alt="image" src="https://github.com/user-attachments/assets/9597c768-bf45-4636-97fd-c3de4d9ab2de" />
 
-Note: The probability of each motif is given in the row value.
+
 
 ## Wide format CSV:
 <img width="1185" height="181" alt="image" src="https://github.com/user-attachments/assets/50ecca1e-58d7-474e-affc-754eda6fffb7" />
+Note: The probability of each motif is given in the row value.
 
 # Usage 
 ```bash
