@@ -13,11 +13,12 @@ Example:
 python ms2lda_motif_exporter.py \
     --mgf spectra.mgf \
     --model ms2lda.bin \
-    --viz ms2lda_viz.json \
+    --viz ms2lda_viz.json or ms2lda_viz.json.gz \
     --outdir results/
 """
 
 import argparse
+import gzip
 import os
 import sys
 import json
@@ -69,14 +70,20 @@ def load_viz_json(viz_path):
     if os.path.isdir(viz_path):
         log("Viz path is a directory → searching for ms2lda_viz.json inside")
         candidate = os.path.join(viz_path, "ms2lda_viz.json")
-        if not os.path.exists(candidate):
+        candidate_gz = candidate + ".gz"
+        if os.path.exists(candidate):
+            viz_path = candidate
+        elif os.path.exists(candidate_gz):
+            viz_path = candidate_gz
+        else:
             raise RuntimeError(
-                "Provided --viz path is a directory but does not contain ms2lda_viz.json"
+                "Provided --viz path is a directory but does not contain "
+                "ms2lda_viz.json or ms2lda_viz.json.gz"
             )
-        viz_path = candidate
         log(f"Found JSON file inside folder → {viz_path}")
 
-    with open(viz_path, encoding="utf-8") as f:
+    opener = gzip.open if viz_path.endswith(".gz") else open
+    with opener(viz_path, "rt", encoding="utf-8") as f:
         data = json.load(f)
 
     if "spectra_data" not in data:
@@ -100,8 +107,8 @@ def extract_top_motifs(model, viz_json, threshold):
     top_motifs = []
     scans_list = []
 
-    for i in range(len(viz_json["spectra_data"])):
-        topics = model.docs[i].get_topics()
+    for i, doc in enumerate(model.docs):
+        topics = doc.get_topics()
 
         doc_motifs = [(motif, prob) for motif, prob in topics if prob > threshold]
         top_motifs.append(doc_motifs)
