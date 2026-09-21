@@ -107,8 +107,8 @@ def extract_top_motifs(model, viz_json, threshold):
     top_motifs = []
     scans_list = []
 
-    for i, doc in enumerate(model.docs):
-        topics = doc.get_topics()
+    for i in range(len(viz_json["spectra_data"])):
+        topics = model.docs[i].get_topics()
 
         doc_motifs = [(motif, prob) for motif, prob in topics if prob > threshold]
         top_motifs.append(doc_motifs)
